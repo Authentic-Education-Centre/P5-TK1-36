@@ -341,7 +341,7 @@ window.tkData1_18 = {
       { word: "mewakili", maksudBM: "bertindak bagi pihak orang lain atau sesuatu kumpulan", maksudCN: "代表；代替出赛", kataDasar: "wakil", imbuhan: "meN-...-i" },
       { word: "pemain", maksudBM: "orang yang bermain dalam sesuatu permainan atau sukan", maksudCN: "球员；运动员", kataDasar: "main", imbuhan: "pe-" },
       { word: "juara", maksudBM: "pemenang atau pasukan yang menang dalam pertandingan", maksudCN: "冠军；优胜者", kataDasar: "juara", imbuhan: "-" },
-      { word: "tumpuan", maksudBM: "Perhatian yang diberikan kepada sesuatu perkara", maksudCN: "注意；专注", kataDasar: "tumpu", imbuhan: "-an" }
+      { word: "tumpuan", maksudBM: "Perhatian yang diberikan kepada sesuatu perkara", maksudCN: "注意；专注", kataDasar: "tumpu", imbuhan: "-an" }，
       { word: "kebangsaan", maksudBM: "berkaitan dengan seluruh negara; peringkat negara", maksudCN: "国家级的；全国性的", kataDasar: "bangsa", imbuhan: "ke-...-an" },
       { word: "harapan", maksudBM: "Sesuatu yang diingini atau diharapkan berlaku.", maksudCN: "希望；期望", kataDasar: "harap", imbuhan: "-an" },
       { word: "ditawarkan", maksudBM: "Diberikan atau disediakan kepada seseorang.", maksudCN: "被提供；被给予", kataDasar: "tawar", imbuhan: "di-...-kan" },
