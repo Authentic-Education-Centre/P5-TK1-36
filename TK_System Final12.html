@@ -280,6 +280,37 @@ body {
   .blank-input { width: 85px; }
   .admin-btn-grid { grid-template-columns: 1fr; }
 }
+/* ── REGISTRATION FORM ── */
+.reg-ov{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px}
+.reg-box{background:#fff;border-radius:24px;padding:28px 24px;width:100%;max-width:clamp(340px,92vw,680px);max-height:92vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+.reg-header{text-align:center;margin-bottom:14px}
+.reg-header .reg-emoji{font-size:clamp(36px,7vw,52px);margin-bottom:4px}
+.reg-header .reg-main-title{font-size:clamp(18px,3.4vw,26px);font-weight:900;color:#1B3A0A}
+.reg-header .reg-main-sub{font-size:clamp(11px,2vw,14px);color:#6b8a5a;font-weight:700;margin-top:2px}
+.reg-section{display:flex;align-items:center;gap:8px;font-size:clamp(13px,2.3vw,17px);font-weight:900;color:#fff;background:linear-gradient(135deg,#2D5016,#4a8c28);padding:8px 14px;border-radius:10px;margin:16px 0 12px}
+.reg-section:first-of-type{margin-top:4px}
+.reg-section .reg-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#fff;color:#2D5016;font-size:12px;font-weight:900}
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-bottom:4px}
+@media(max-width:480px){.reg-grid{grid-template-columns:1fr}}
+.reg-field{display:flex;flex-direction:column;gap:5px}
+.reg-field label{font-size:clamp(11px,2vw,13.5px);font-weight:800;color:#2D5016}
+.reg-field .req{color:#e74c3c}
+.reg-field input,.reg-field select{padding:clamp(9px,1.8vw,12px) clamp(11px,2vw,14px);border:1.5px solid #c8dab8;border-radius:10px;font-size:clamp(12px,2.1vw,14.5px);font-weight:700;font-family:'Nunito',sans-serif;background:#f8fbf5;color:#1B3A0A;outline:none;transition:.15s;width:100%}
+.reg-field input::placeholder{color:#a8b89e;font-weight:600}
+.reg-field input:focus,.reg-field select:focus{border-color:#4a8c28;background:#fff;box-shadow:0 0 0 3px rgba(74,140,40,.12)}
+.reg-field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234a8c28'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:18px;padding-right:32px}
+.reg-field input[type="date"]{color-scheme:light}
+.reg-hint{font-size:10px;color:#6b8a5a;font-weight:700}
+.reg-err{color:#dc2626;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;font-size:clamp(11px,2vw,14px);font-weight:800;text-align:center;min-height:18px;margin:12px 0;padding:8px 10px}
+.reg-err:empty{display:none;border:none;padding:0;margin:8px 0 0}
+.reg-skip-link{margin-top:14px;font-size:clamp(11px,2vw,13.5px);color:#6b8a5a;font-weight:700;cursor:pointer;text-align:center;padding:8px;border-radius:8px;transition:.15s}
+.reg-skip-link:hover{background:#f0f7ec;color:#2D5016;text-decoration:underline}
+.reg-success-name{background:linear-gradient(135deg,#2D5016,#4a8c28);border-radius:14px;padding:16px;margin:16px 0;font-size:clamp(18px,4vw,28px);font-weight:900;color:#fff;letter-spacing:1.5px;box-shadow:0 6px 20px rgba(45,80,22,.25)}
+.reg-open-btn{position:fixed;bottom:20px;right:20px;z-index:998;background:linear-gradient(135deg,#2D5016,#4a8c28);color:#fff;border:none;border-radius:50px;padding:12px 20px;font-size:14px;font-weight:900;font-family:'Nunito',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(45,80,22,.4);transition:.2s}
+.reg-open-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(45,80,22,.5)}
+.reg-submit-btn{width:100%;padding:14px;background:linear-gradient(135deg,#2D5016,#4a8c28);color:#fff;border:none;border-radius:14px;font-size:clamp(14px,2.5vw,17px);font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;margin-top:8px;transition:.15s}
+.reg-submit-btn:hover{opacity:.9}
+.reg-loading{text-align:center;font-size:14px;font-weight:700;color:#6b8a5a;padding:8px}
 </style>
 </head>
 <body>
@@ -1092,9 +1123,9 @@ function buildSectionD(n, tkData, pn, sd) {
     const dScore = tkInfo.details?.D?.score || S.dResult?.score || 0;
     const bScore = tkInfo.details?.B?.score || 0;
     const cScore = tkInfo.details?.C?.score || 0;
-    const attempts = pn.tkAttempts || 0; // number of redos done so far
-    const canRedo = !isSuperTeacher() && attempts < 4; // max 4 redos (×90,×80,×70,×70)
-    const nextRedoMult = canRedo ? SCORE_MULT[Math.min(attempts + 1, SCORE_MULT.length - 1)] : 0;
+    const attempts = pn.tkAttempts || 0;
+    const canRedo = !isSuperTeacher() && attempts < 5;
+    const nextRedoMult = canRedo ? SCORE_MULT[Math.min(attempts, SCORE_MULT.length - 1)] : 0;
     const avg = tkInfo.bestAvg !== undefined ? tkInfo.bestAvg : getTKAvg(n, sd);
     const passed = avg >= 85;
     const isEvenTK = (n % 2 === 0);
@@ -1143,7 +1174,7 @@ function buildSectionD(n, tkData, pn, sd) {
         ${pairMsg}
         <div style="display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap;">
           ${nextUnlocked ? `<button class="btn btn-primary" id="btn-next-tk" data-next="${nextN}">前往 TK ${nextN} →</button>` : ''}
-          ${canRedo ? `<button class="btn btn-gold" data-redo-tk="${n}">🔄 重做 TK${n}（第${attempts+1}次重做·×${nextRedoMult}%）</button>` : (!isSuperTeacher() && attempts >= 4 ? '<span style="font-size:0.82rem;color:var(--gray);font-weight:700;">已达最大重做次数（4次）</span>' : '')}
+          ${canRedo ? `<button class="btn btn-gold" data-redo-tk="${n}">🔄 重做 TK${n}（第${attempts+1}次·×${nextRedoMult}%）</button>` : (!isSuperTeacher() && attempts >= 5 ? '<span style="font-size:0.82rem;color:var(--gray);font-weight:700;">已达最大重做次数（5次）</span>' : '')}
           <button class="btn btn-gray" data-nav="main">返回主页</button>
         </div>
       </div>`;
@@ -1272,11 +1303,12 @@ function buildAdmin() {
 function redoTK(n) {
   const pn = getP(n);
   const attempts = pn.tkAttempts || 0;
-  if (attempts >= 4) { alert('此TK已达到最大重做次数（4次）！'); return; }
-  const mult = SCORE_MULT[Math.min(attempts + 1, SCORE_MULT.length - 1)];
+  if (attempts >= 5) { alert('此TK已达到最大重做次数（5次）！'); return; }
+  const mult = SCORE_MULT[Math.min(attempts, SCORE_MULT.length - 1)];
   customConfirm(
-    `确定要重做 TK ${n}？\n将重新完成 A→B→C→D 全部练习。\n本次分数将乘以 ×${mult}%（第${attempts + 1}次重做）。`,
+    `确定要重做 TK ${n}？\n将重新完成 A→B→C→D 全部练习。\n本次分数将乘以 ×${mult}%（第${attempts+1}次）。`,
     () => {
+      // Reset section flags but keep passedAt, tkAttempts, completedTK intact
       setP(n, {
         aComplete: false, bComplete: false, cComplete: false,
         dComplete: false, complete: false, redoing: true,
@@ -1303,7 +1335,7 @@ function buildStatusCard(sd) {
     const num = +k;
     const pn = (sd.progress || {})[num] || {};
     const attempts = pn.tkAttempts || 0;
-    if (attempts < 4) redoable.push({ n: num, remaining: 4 - attempts });
+    if (attempts < 5) redoable.push({ n: num, remaining: 5 - attempts });
   });
   redoable.sort((a, b) => a.n - b.n);
   if (!waitList.length && !redoable.length) return '';
@@ -1450,14 +1482,7 @@ function resetStudentByIndex(idx) {
   if (!name) return;
   customConfirm('确定要重置学生 "' + name + '" 的所有进度吗？', () => {
     const all = getAllStudents();
-    if (all[name]) {
-      const newObj = newStudentObj();
-      all[name] = newObj;
-      saveAllStudents(all);
-      // Sync to Firebase
-      try { db.ref('students/' + encodeFireKey(name)).set(newObj).catch(() => {}); } catch(e) {}
-      renderApp();
-    }
+    if (all[name]) { all[name] = newStudentObj(); saveAllStudents(all); renderApp(); }
   }, '🔄');
 }
 
@@ -1468,8 +1493,6 @@ function deleteStudentByIndex(idx) {
     const all = getAllStudents();
     delete all[name];
     saveAllStudents(all);
-    // Sync to Firebase
-    try { db.ref('students/' + encodeFireKey(name)).remove().catch(() => {}); } catch(e) {}
     renderApp();
     openDeleteModal();
   }, '🗑️');
@@ -1482,14 +1505,12 @@ function addStudent() {
   if (!name) { err.textContent = '请输入学生名字！'; err.style.display = 'block'; return; }
   const all = getAllStudents();
   if (all[name]) { err.textContent = '该学生已存在！'; err.style.display = 'block'; return; }
-  const newObj = newStudentObj();
-  all[name] = newObj;
+  all[name] = newStudentObj();
   saveAllStudents(all);
-  // Sync to Firebase
-  try { db.ref('students/' + encodeFireKey(name)).set(newObj).catch(() => {}); } catch(e) {}
   inp.value = '';
   err.style.display = 'none';
   closeModal('modal-add-student');
+  // Refresh admin if on admin screen
   if (S.screen === 'admin') renderApp();
   alert(`✅ 学生 "${name}" 添加成功！`);
 }
@@ -1796,12 +1817,10 @@ function submitD(n) {
     setP(n, { dParaQueue: queue });
     const sd = getStudentData(currentStudent) || newStudentObj();
     if (!sd.completedTK) sd.completedTK = {};
-    // Only apply score multiplier if this is a REDO (after already passed)
-    // First time completion always gets ×100%
+    // Get attempt number (0 = first time ever)
     const pn = getP(n);
-    const isRedo = !!pn.redoing;
-    const redoNum = isRedo ? (pn.tkAttempts || 0) : 0; // redo count starts at 0 = first redo = ×90%
-    const mult = isRedo ? (SCORE_MULT[Math.min(redoNum, SCORE_MULT.length - 1)] / 100) : 1;
+    const attemptNum = pn.tkAttempts || 0;
+    const mult = SCORE_MULT[Math.min(attemptNum, SCORE_MULT.length - 1)] / 100;
     // Apply multiplier to scores
     const newB = Math.round(S.bScore * mult);
     const newC = Math.round(S.cScore * mult);
@@ -1832,9 +1851,8 @@ function submitD(n) {
       sd.totalScore = (sd.totalScore || 0) + (newTotal - oldTotal);
     }
     saveStudentData(currentStudent, sd);
-    // Increment redo count only if this was a redo, clear redoing flag
-    const newAttempts = isRedo ? (pn.tkAttempts || 0) + 1 : (pn.tkAttempts || 0);
-    setP(n, { dComplete: true, complete: true, redoing: false, tkAttempts: newAttempts });
+    // Increment attempts, clear redoing flag
+    setP(n, { dComplete: true, complete: true, redoing: false, tkAttempts: attemptNum + 1 });
   }
   renderApp();
 }
@@ -2018,52 +2036,7 @@ function preloadStudents(nameList) {
       added++;
     }
   });
-  if (added > 0) {
-    saveAllStudents(all);
-    // Sync new students to Firebase
-    nameList.forEach(name => {
-      const n = name.trim().toUpperCase();
-      if (n) {
-        try {
-          db.ref('students/' + encodeFireKey(n)).once('value').then(snap => {
-            if (!snap.exists()) {
-              db.ref('students/' + encodeFireKey(n)).set(all[n]).catch(() => {});
-            }
-          }).catch(() => {});
-        } catch(e) {}
-      }
-    });
-  }
-}
-
-// Sync ALL students from Firebase into localStorage on page load
-// so student list is always up to date across devices
-function syncAllStudentsFromFirebase(onDone) {
-  try {
-    db.ref('students').once('value').then(snap => {
-      const remote = snap.val() || {};
-      const local = getAllStudents();
-      // Merge: Firebase is source of truth for student list
-      // but keep local data if it's newer (lastAccess)
-      Object.keys(remote).forEach(fireKey => {
-        // Find matching local name
-        const matchName = Object.keys(local).find(n => encodeFireKey(n) === fireKey);
-        const remoteSd = remote[fireKey];
-        if (matchName) {
-          // Keep whichever is more recent
-          const localTime = new Date(local[matchName].lastAccess || 0).getTime();
-          const remoteTime = new Date(remoteSd.lastAccess || 0).getTime();
-          if (remoteTime > localTime) local[matchName] = remoteSd;
-        } else {
-          // New student from Firebase not in local — add them
-          // Try to find the display name from preloaded list
-          local[fireKey] = remoteSd;
-        }
-      });
-      saveAllStudents(local);
-      onDone();
-    }).catch(() => onDone());
-  } catch(e) { onDone(); }
+  if (added > 0) saveAllStudents(all);
 }
 
 // ═══════════════════════════════
@@ -2109,8 +2082,167 @@ preloadStudents([
   "BENJAMIN LEE HAO ZHE",
   "CHNG CHIN HAN",
 ]);
-// Sync student list from Firebase before first render
-syncAllStudentsFromFirebase(() => renderApp());
+renderApp();
+</script>
+
+<!-- REGISTRATION OVERLAY -->
+<div class="reg-ov" id="reg-ov" style="display:flex">
+  <div class="reg-box">
+    <div style="text-align:right;margin-bottom:4px"><button onclick="document.getElementById('reg-ov').style.display='none'" style="background:none;border:none;font-size:22px;cursor:pointer;color:#888">✕</button></div>
+    <div class="reg-header">
+      <div class="reg-emoji">📝</div>
+      <div class="reg-main-title">学生资料登记</div>
+      <div class="reg-main-sub">Pendaftaran Pelajar · 第一次使用需填写资料</div>
+    </div>
+    <div class="reg-section"><span class="reg-num">1</span> 学生资料 · Maklumat Pelajar</div>
+    <div class="reg-grid">
+      <div class="reg-field">
+        <label>学生全名 <span class="req">*</span></label>
+        <input type="text" id="reg-fullname" placeholder="如身份证所示" maxlength="60" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
+        <div class="reg-hint">⚠️ 此名字将用于登入，请准确填写</div>
+      </div>
+      <div class="reg-field">
+        <label>别名/昵称</label>
+        <input type="text" id="reg-nickname" placeholder="选填" maxlength="30">
+      </div>
+      <div class="reg-field">
+        <label>出生日期 <span class="req">*</span></label>
+        <input type="date" id="reg-dob">
+      </div>
+      <div class="reg-field">
+        <label>性别 <span class="req">*</span></label>
+        <select id="reg-gender">
+          <option value="">--</option>
+          <option value="男 · Lelaki">男 · Lelaki</option>
+          <option value="女 · Perempuan">女 · Perempuan</option>
+        </select>
+      </div>
+      <div class="reg-field">
+        <label>学校名称 <span class="req">*</span></label>
+        <input type="text" id="reg-school" placeholder="SJK(C) ..." maxlength="80">
+      </div>
+      <div class="reg-field">
+        <label>年级 <span class="req">*</span></label>
+        <select id="reg-grade">
+          <option value="">--</option>
+          <option value="一年级 · Tahun 1">一年级 · Tahun 1</option>
+          <option value="二年级 · Tahun 2">二年级 · Tahun 2</option>
+          <option value="三年级 · Tahun 3">三年级 · Tahun 3</option>
+          <option value="四年级 · Tahun 4">四年级 · Tahun 4</option>
+          <option value="五年级 · Tahun 5">五年级 · Tahun 5</option>
+          <option value="六年级 · Tahun 6">六年级 · Tahun 6</option>
+        </select>
+      </div>
+    </div>
+    <div class="reg-section"><span class="reg-num">2</span> 家长/监护人资料 · Maklumat Ibu Bapa / Penjaga</div>
+    <div class="reg-grid">
+      <div class="reg-field">
+        <label>家长全名 <span class="req">*</span></label>
+        <input type="text" id="reg-parent-name" placeholder="家长/监护人姓名" maxlength="60">
+      </div>
+      <div class="reg-field">
+        <label>与学生关系 <span class="req">*</span></label>
+        <select id="reg-relation">
+          <option value="">--</option>
+          <option value="父亲 · Ayah">父亲 · Ayah</option>
+          <option value="母亲 · Ibu">母亲 · Ibu</option>
+          <option value="监护人 · Penjaga">监护人 · Penjaga</option>
+          <option value="其他 · Lain">其他 · Lain</option>
+        </select>
+      </div>
+      <div class="reg-field">
+        <label>手机号码 <span class="req">*</span></label>
+        <input type="tel" id="reg-phone" placeholder="+60 12-345 6789" maxlength="20">
+      </div>
+      <div class="reg-field">
+        <label>电子邮件 <span class="req">*</span></label>
+        <input type="email" id="reg-email" placeholder="email@example.com" maxlength="80">
+      </div>
+      <div class="reg-field">
+        <label>城市</label>
+        <input type="text" id="reg-city" placeholder="选填" maxlength="40">
+      </div>
+      <div class="reg-field">
+        <label>州属 <span class="req">*</span></label>
+        <select id="reg-state">
+          <option value="">--</option>
+          <option>Johor</option><option>Kedah</option><option>Kelantan</option>
+          <option>Melaka</option><option>Negeri Sembilan</option><option>Pahang</option>
+          <option>Perak</option><option>Perlis</option><option>Pulau Pinang</option>
+          <option>Sabah</option><option>Sarawak</option><option>Selangor</option>
+          <option>Terengganu</option><option>WP Kuala Lumpur</option>
+          <option>WP Labuan</option><option>WP Putrajaya</option>
+        </select>
+      </div>
+    </div>
+    <div class="reg-err" id="reg-err"></div>
+    <button class="reg-submit-btn" id="reg-submit-btn" onclick="submitRegistration()">✅ 提交并登记 · Hantar & Daftar</button>
+    <div class="reg-loading" id="reg-loading" style="display:none">⏳ 提交中...</div>
+    <div class="reg-skip-link" onclick="document.getElementById('reg-ov').style.display='none'">关闭 · Tutup</div>
+  </div>
+</div>
+
+<!-- REGISTRATION SUCCESS OVERLAY -->
+<div class="reg-ov" id="reg-success-ov" style="display:none;z-index:10001">
+  <div class="reg-box" style="max-width:clamp(300px,85vw,440px);text-align:center">
+    <div style="font-size:clamp(40px,8vw,64px);margin-bottom:8px">🎉</div>
+    <div style="font-size:clamp(18px,3.4vw,26px);font-weight:900;color:#22c55e">注册成功！· Pendaftaran Berjaya!</div>
+    <div style="margin:14px 0;line-height:1.7;font-size:clamp(13px,2.3vw,16px);color:#555">
+      请家长和孩子记得：<br>
+      <strong>登入请使用学生全名</strong><br>
+      Sila ingat: gunakan <strong>nama penuh pelajar</strong> untuk log masuk
+    </div>
+    <div class="reg-success-name" id="reg-success-name"></div>
+    <button class="reg-submit-btn" onclick="document.getElementById('reg-success-ov').style.display='none'">✅ 知道了！· Faham!</button>
+  </div>
+</div>
+
+<script>
+async function submitRegistration(){
+  const errEl = document.getElementById('reg-err');
+  errEl.textContent = '';
+  const fullname = document.getElementById('reg-fullname').value.trim();
+  const nickname = document.getElementById('reg-nickname').value.trim();
+  const dob      = document.getElementById('reg-dob').value;
+  const gender   = document.getElementById('reg-gender').value;
+  const school   = document.getElementById('reg-school').value.trim();
+  const grade    = document.getElementById('reg-grade').value;
+  const pname    = document.getElementById('reg-parent-name').value.trim();
+  const relation = document.getElementById('reg-relation').value;
+  const phone    = document.getElementById('reg-phone').value.trim();
+  const email    = document.getElementById('reg-email').value.trim();
+  const city     = document.getElementById('reg-city').value.trim();
+  const state    = document.getElementById('reg-state').value;
+  if(!fullname){errEl.textContent='❌ 请填写学生全名！';return;}
+  if(!dob){errEl.textContent='❌ 请填写出生日期！';return;}
+  if(!gender){errEl.textContent='❌ 请选择性别！';return;}
+  if(!school){errEl.textContent='❌ 请填写学校名称！';return;}
+  if(!grade){errEl.textContent='❌ 请选择年级！';return;}
+  if(!pname){errEl.textContent='❌ 请填写家长全名！';return;}
+  if(!relation){errEl.textContent='❌ 请选择与学生关系！';return;}
+  if(!phone){errEl.textContent='❌ 请填写手机号码！';return;}
+  if(!email){errEl.textContent='❌ 请填写电子邮件！';return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){errEl.textContent='❌ 电子邮件格式不正确！';return;}
+  if(!state){errEl.textContent='❌ 请选择州属！';return;}
+  document.getElementById('reg-submit-btn').style.display='none';
+  document.getElementById('reg-loading').style.display='block';
+  try {
+    await firebase.database().ref('registrations/' + fullname).set({
+      fullname, nickname, dob, gender, school, grade,
+      parentName: pname, relation, phone, email, city, state,
+      registeredAt: new Date().toISOString()
+    });
+    document.getElementById('reg-ov').style.display='none';
+    document.getElementById('reg-success-name').textContent = fullname;
+    document.getElementById('reg-success-ov').style.display='flex';
+    document.getElementById('reg-submit-btn').style.display='block';
+    document.getElementById('reg-loading').style.display='none';
+  } catch(e){
+    errEl.textContent = '❌ 提交失败：' + e.message;
+    document.getElementById('reg-submit-btn').style.display='block';
+    document.getElementById('reg-loading').style.display='none';
+  }
+}
 </script>
 </body>
 </html>
