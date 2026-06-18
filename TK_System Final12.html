@@ -309,6 +309,45 @@ body {
 .reg-submit-btn{width:100%;padding:14px;background:var(--gradient);color:#fff;border:none;border-radius:14px;font-size:clamp(14px,2.5vw,17px);font-weight:900;cursor:pointer;font-family:'Nunito',sans-serif;margin-top:8px;transition:.15s}
 .reg-submit-btn:hover{opacity:.9}
 .reg-loading{text-align:center;font-size:14px;font-weight:700;color:var(--text-light);padding:8px}
+
+/* ── SHOP ── */
+.shop-ov{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9998;padding:20px}
+.shop-box{background:#fff;border-radius:24px;padding:24px 20px;width:100%;max-width:clamp(340px,92vw,640px);max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.shop-box-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.shop-box-title{font-size:clamp(17px,3vw,22px);font-weight:900;color:var(--text)}
+.shop-box-close{background:none;border:none;font-size:22px;cursor:pointer;color:#888}
+.shop-balance{background:var(--gradient);border-radius:14px;padding:12px 16px;color:#fff;font-weight:900;font-size:clamp(13px,2.3vw,16px);margin-bottom:16px;text-align:center}
+.gc-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+@media(max-width:480px){.gc-list{grid-template-columns:1fr}}
+.gift-card{border:2px solid var(--border);border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.15s;background:var(--primary-light)}
+.gift-card:hover{border-color:var(--primary);transform:translateY(-2px)}
+.gift-card.cant-afford{opacity:.5;cursor:not-allowed}
+.gift-card.redeemed{opacity:.65;cursor:default;border-color:#22c55e}
+.gc-icon{font-size:30px}
+.gc-info{flex:1}
+.gc-name{font-size:clamp(12px,2.1vw,14.5px);font-weight:900;color:var(--text)}
+.gc-desc{font-size:10px;color:var(--text-light);font-weight:600;margin:2px 0}
+.gc-price{font-size:11px;font-weight:800;color:var(--primary-dark)}
+.gc-btn{font-size:11px;font-weight:900;color:#fff;background:var(--gradient);padding:6px 10px;border-radius:8px;white-space:nowrap}
+.my-cards-title{font-size:clamp(13px,2.3vw,16px);font-weight:900;color:var(--text);margin-bottom:8px}
+.my-cards{display:flex;flex-direction:column;gap:8px}
+.no-cards{font-size:12px;color:var(--text-light);font-weight:700;text-align:center;padding:14px}
+.redeemed-card{border-radius:12px;padding:10px 14px;border:2px solid var(--border);background:var(--primary-light)}
+.rc-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.rc-icon{font-size:18px}
+.rc-name{font-weight:900;font-size:12px;color:var(--text);flex:1}
+.rc-status{font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px}
+.rc-status.used{background:#e2e8f0;color:#64748b}
+.rc-status.new{background:#dcfce7;color:#166534}
+.rc-code{font-family:monospace;font-weight:900;font-size:13px;color:var(--primary-dark);letter-spacing:1px}
+.rc-meta{font-size:10px;color:var(--text-light);margin-top:2px}
+.shop-open-btn{background:var(--gradient);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:0.85rem;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer}
+.verify-ov{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:10002;padding:20px}
+.verify-box{background:#fff;border-radius:20px;padding:24px 20px;width:100%;max-width:420px;box-shadow:var(--shadow-lg)}
+.verify-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-weight:700;font-family:monospace;margin:10px 0;text-transform:uppercase}
+.verify-result{font-size:13px;font-weight:800;text-align:center;padding:10px;border-radius:10px;min-height:20px;margin-top:8px}
+.verify-result.vr-ok{background:#dcfce7;color:#166534}
+.verify-result.vr-no{background:#fee2e2;color:#991b1b}
 </style>
 </head>
 <body>
@@ -885,7 +924,7 @@ function buildMain() {
         <div class="name">${isSuperTeacher() ? '👩‍🏫 超级老师模式 — PEGGY' : '👋 你好，' + escHtml(currentStudent) + '！'}</div>
         <div class="stats">${isSuperTeacher() ? '✅ 所有 TK 已解锁 · 无需计分 · 自由浏览' : '已完成 ' + completedCount + ' / ' + totalTK + ' 个 TK · 总分 ' + (sd.totalScore || 0) + ' 分'}</div>
       </div>
-      ${!isSuperTeacher() ? `<button class="btn btn-gold btn-sm" id="btn-student-lb">🏆 排行榜</button>` : ''}
+      ${!isSuperTeacher() ? `<button class="btn btn-gold btn-sm" id="btn-student-lb">🏆 排行榜</button><button class="shop-open-btn" id="btn-open-shop">🛒 商店</button>` : ''}
     </div>
     ${!isSuperTeacher() ? buildStatusCard(sd) : ''}
     <div class="section-label">选择练习单元</div>
@@ -1278,6 +1317,7 @@ function buildAdmin() {
           <button class="btn btn-gold"  id="btn-open-lb">🏆 排行榜</button>
           <button class="btn btn-primary" id="btn-open-scores">📊 查看学生成绩</button>
           <button class="btn btn-gray" id="btn-simulate-test">🧪 模拟测试解锁</button>
+          <button class="btn btn-primary" id="btn-open-verify">🎫 核实礼物卡</button>
         </div>
       </div>
       <div class="admin-card">
@@ -1909,6 +1949,8 @@ function attachEvents() {
   if (btnLogout) btnLogout.addEventListener('click', logout);
   const btnStudentLb = document.getElementById('btn-student-lb');
   if (btnStudentLb) btnStudentLb.addEventListener('click', openStudentLeaderboard);
+  const btnOpenShop = document.getElementById('btn-open-shop');
+  if (btnOpenShop) btnOpenShop.addEventListener('click', openShop);
   // Start realtime leaderboard listener when on main screen
   if (S.screen === 'main' && !isSuperTeacher()) startLbListener();
   document.querySelectorAll('[data-open-tk]').forEach(el => {
@@ -2005,6 +2047,8 @@ function attachEvents() {
   if (btnOpenScores) btnOpenScores.addEventListener('click', openStudentScores);
   const btnSimulate = document.getElementById('btn-simulate-test');
   if (btnSimulate) btnSimulate.addEventListener('click', simulateTest);
+  const btnOpenVerify = document.getElementById('btn-open-verify');
+  if (btnOpenVerify) btnOpenVerify.addEventListener('click', openVerify);
   const btnResetAll = document.getElementById('btn-reset-all');
   if (btnResetAll) btnResetAll.addEventListener('click', () => {
     customConfirm('确定要重置所有学生的全部进度吗？此操作不可撤销！', () => {
@@ -2179,6 +2223,48 @@ renderApp();
   </div>
 </div>
 
+<!-- SHOP OVERLAY -->
+<div class="shop-ov" id="shop-ov" style="display:none">
+  <div class="shop-box">
+    <div class="shop-box-hdr">
+      <div class="shop-box-title">🛒 购物天堂 · Syurga Hadiah</div>
+      <button class="shop-box-close" onclick="closeShop()">✕</button>
+    </div>
+    <div class="shop-balance" id="shop-balance"></div>
+    <div class="gc-list" id="gc-list"></div>
+    <div class="my-cards-title">我的礼物卡 · Kad Hadiah Saya</div>
+    <div class="my-cards" id="my-cards"></div>
+  </div>
+</div>
+
+<!-- TEACHER VERIFY OVERLAY -->
+<div class="verify-ov" id="verify-ov" style="display:none">
+  <div class="verify-box">
+    <div class="shop-box-hdr">
+      <div class="shop-box-title">🎫 核实礼物卡</div>
+      <button class="shop-box-close" onclick="closeVerify()">✕</button>
+    </div>
+    <input class="verify-input" id="verify-input" placeholder="输入兑换码 · TM-GLD-XXXXXX-XXXX" autocomplete="off">
+    <button class="btn btn-primary btn-block" onclick="verifyShopCode()">核实</button>
+    <div class="verify-result" id="verify-result"></div>
+  </div>
+</div>
+
+<!-- REGISTRATION DUPLICATE OVERLAY -->
+<div class="reg-ov" id="reg-duplicate-ov" style="display:none;z-index:10001">
+  <div class="reg-box" style="max-width:clamp(300px,85vw,440px);text-align:center">
+    <div style="font-size:clamp(40px,8vw,64px);margin-bottom:8px">⚠️</div>
+    <div style="font-size:clamp(18px,3.4vw,26px);font-weight:900;color:var(--primary)">名字已注册！· Nama Sudah Didaftar!</div>
+    <div style="margin:14px 0;line-height:1.7;font-size:clamp(13px,2.3vw,16px);color:#555">
+      此名字已经注册过了。<br>
+      请直接用以下名字登入：<br>
+      Nama ini sudah didaftar. Sila log masuk terus.
+    </div>
+    <div class="reg-success-name" id="reg-duplicate-name"></div>
+    <button class="reg-submit-btn" onclick="document.getElementById('reg-duplicate-ov').style.display='none';document.getElementById('reg-ov').style.display='flex'">↩ 返回 · Kembali</button>
+  </div>
+</div>
+
 <!-- REGISTRATION SUCCESS OVERLAY -->
 <div class="reg-ov" id="reg-success-ov" style="display:none;z-index:10001">
   <div class="reg-box" style="max-width:clamp(300px,85vw,440px);text-align:center">
@@ -2195,6 +2281,101 @@ renderApp();
 </div>
 
 <script>
+// ── SHOP ──
+const SHOP_CARDS={
+  bronze:{name:'铜卡',icon:'🥉',need:300,desc:'小礼物 · Hadiah Kecil',cls:''},
+  silver:{name:'银卡',icon:'🥈',need:700,desc:'文具套装 · Alat Tulis',cls:''},
+  gold:{name:'金卡',icon:'🥇',need:1500,desc:'故事书 · Buku Cerita',cls:''},
+  diamond:{name:'钻石卡',icon:'💎',need:3000,desc:'大礼包 · Pakej Istimewa',cls:''}
+};
+function genShopCode(tier){
+  const d=new Date();
+  const ds=(d.getFullYear()+'').slice(2)+(d.getMonth()+1+'').padStart(2,'0')+(''+d.getDate()).padStart(2,'0');
+  const n=Math.floor(1000+Math.random()*9000);
+  const prefix={bronze:'BRZ',silver:'SIL',gold:'GLD',diamond:'DIA'}[tier];
+  return 'P5-'+prefix+'-'+ds+'-'+n;
+}
+function openShop(){
+  document.getElementById('shop-ov').style.display='flex';
+  renderShopUI();
+}
+function closeShop(){
+  document.getElementById('shop-ov').style.display='none';
+}
+function renderShopUI(){
+  const sd=getStudentData(currentStudent)||newStudentObj();
+  const score=sd.totalScore||0;
+  document.getElementById('shop-balance').textContent='我的总分：'+score+' 分';
+  const cards=sd.cards||[];
+  const gcList=document.getElementById('gc-list');
+  gcList.innerHTML='';
+  Object.keys(SHOP_CARDS).forEach(tier=>{
+    const c=SHOP_CARDS[tier];
+    const already=cards.find(x=>x.tier===tier);
+    const can=score>=c.need;
+    const div=document.createElement('div');
+    div.className='gift-card'+(already?' redeemed':(can?'':' cant-afford'));
+    div.innerHTML=`<div class="gc-icon">${c.icon}</div><div class="gc-info"><div class="gc-name">${c.name}</div><div class="gc-desc">${c.desc}</div><div class="gc-price">需要总分 ${c.need} 分</div></div><div class="gc-btn">${already?'已兑换':'兑换'}</div>`;
+    if(!already) div.onclick=()=>redeemGiftCard(tier);
+    gcList.appendChild(div);
+  });
+  const mc=document.getElementById('my-cards');
+  if(!cards.length){mc.innerHTML='<div class="no-cards">还没有礼物卡 · Belum ada kad hadiah</div>';return;}
+  mc.innerHTML='';
+  [...cards].reverse().forEach(r=>{
+    const d=document.createElement('div');
+    d.className='redeemed-card';
+    d.innerHTML=`<div class="rc-top"><span class="rc-icon">${r.icon}</span><span class="rc-name">${r.name}</span><span class="rc-status ${r.used?'used':'new'}">${r.used?'已核实':'未核实'}</span></div><div class="rc-code">${r.code}</div><div class="rc-meta">兑换日期：${r.date}</div>`;
+    mc.appendChild(d);
+  });
+}
+function redeemGiftCard(tier){
+  const sd=getStudentData(currentStudent)||newStudentObj();
+  const score=sd.totalScore||0;
+  const c=SHOP_CARDS[tier];
+  if(score<c.need){toast2('总分不够！需要 '+c.need+' 分');return;}
+  if(!sd.cards) sd.cards=[];
+  if(sd.cards.find(x=>x.tier===tier)){toast2('此礼物卡已经兑换过了！');return;}
+  const code=genShopCode(tier);
+  sd.cards.push({code,tier,icon:c.icon,name:c.name,date:new Date().toLocaleDateString('zh-MY'),used:false});
+  saveStudentData(currentStudent,sd);
+  renderShopUI();
+  toast2(c.icon+' '+c.name+' 兑换成功！请给老师看兑换码');
+}
+function openVerify(){
+  document.getElementById('verify-ov').style.display='flex';
+  document.getElementById('verify-input').value='';
+  document.getElementById('verify-result').textContent='';
+  document.getElementById('verify-result').className='verify-result';
+}
+function closeVerify(){
+  document.getElementById('verify-ov').style.display='none';
+}
+function verifyShopCode(){
+  const v=document.getElementById('verify-input').value.trim().toUpperCase();
+  const el=document.getElementById('verify-result');
+  if(!v){el.className='verify-result vr-no';el.textContent='请输入兑换码';return;}
+  const all=getAllStudents();
+  let foundName=null,foundCard=null;
+  Object.keys(all).forEach(name=>{
+    const cards=all[name].cards||[];
+    const c=cards.find(c=>c.code===v);
+    if(c){foundName=name;foundCard=c;}
+  });
+  if(!foundCard){el.className='verify-result vr-no';el.textContent='❌ 无效兑换码';return;}
+  if(foundCard.used){el.className='verify-result vr-no';el.textContent='⚠️ 此码已核实过（'+foundCard.date+'）';return;}
+  foundCard.used=true;
+  saveStudentData(foundName,all[foundName]);
+  el.className='verify-result vr-ok';
+  el.textContent='✅ 有效！'+foundName+' · '+foundCard.icon+' '+foundCard.name+' · 已核实';
+}
+function toast2(msg){
+  let el=document.getElementById('toast2');
+  if(!el){el=document.createElement('div');el.id='toast2';el.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;font-weight:700;z-index:10010;opacity:0;transition:.3s;pointer-events:none';document.body.appendChild(el);}
+  el.textContent=msg;el.style.opacity='1';
+  clearTimeout(window._t2);window._t2=setTimeout(()=>{el.style.opacity='0';},2300);
+}
+
 async function submitRegistration(){
   const errEl = document.getElementById('reg-err');
   errEl.textContent = '';
@@ -2224,6 +2405,15 @@ async function submitRegistration(){
   document.getElementById('reg-submit-btn').style.display='none';
   document.getElementById('reg-loading').style.display='block';
   try {
+    const existing = await firebase.database().ref('registrations/' + fullname).once('value');
+    if(existing.exists()){
+      document.getElementById('reg-submit-btn').style.display='block';
+      document.getElementById('reg-loading').style.display='none';
+      document.getElementById('reg-ov').style.display='none';
+      document.getElementById('reg-duplicate-name').textContent = fullname;
+      document.getElementById('reg-duplicate-ov').style.display='flex';
+      return;
+    }
     await firebase.database().ref('registrations/' + fullname).set({
       fullname, nickname, dob, gender, school, grade,
       parentName: pname, relation, phone, email, city, state,
