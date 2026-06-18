@@ -310,38 +310,82 @@ body {
 .reg-submit-btn:hover{opacity:.9}
 .reg-loading{text-align:center;font-size:14px;font-weight:700;color:var(--text-light);padding:8px}
 
-/* ── SHOP ── */
+/* ── SHOP (ported from TriMaster Farm) ── */
 .shop-ov{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9998;padding:20px}
-.shop-box{background:#fff;border-radius:24px;padding:24px 20px;width:100%;max-width:clamp(340px,92vw,640px);max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
-.shop-box-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.shop-box-title{font-size:clamp(17px,3vw,22px);font-weight:900;color:var(--text)}
-.shop-box-close{background:none;border:none;font-size:22px;cursor:pointer;color:#888}
-.shop-balance{background:var(--gradient);border-radius:14px;padding:12px 16px;color:#fff;font-weight:900;font-size:clamp(13px,2.3vw,16px);margin-bottom:16px;text-align:center}
-.gc-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
-@media(max-width:480px){.gc-list{grid-template-columns:1fr}}
-.gift-card{border:2px solid var(--border);border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.15s;background:var(--primary-light)}
-.gift-card:hover{border-color:var(--primary);transform:translateY(-2px)}
-.gift-card.cant-afford{opacity:.5;cursor:not-allowed}
-.gift-card.redeemed{opacity:.65;cursor:default;border-color:#22c55e}
-.gc-icon{font-size:30px}
+.shop-box{background:#fafaf5;border-radius:18px;padding:0;width:100%;max-width:clamp(340px,94vw,820px);max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.shop-wrap{padding:clamp(10px,1.9vw,18px)}
+.shop-hdr{background:linear-gradient(135deg,#6B21A8,#9333EA);border-radius:var(--radius);padding:clamp(12px,2.2vw,20px) clamp(14px,2.5vw,22px);margin-bottom:clamp(10px,1.9vw,16px);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.sh-title{color:#fff;font-size:clamp(13px,2.4vw,19px);font-weight:900}
+.sh-bal{color:#e9d5ff;font-size:clamp(11px,2vw,16px);font-weight:800}
+.sh-rules-link{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;padding:6px 10px;font-size:clamp(10px,1.8vw,12px);font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap}
+.sh-rules-link:hover{background:rgba(255,255,255,.28)}
+.shop-box-close{position:absolute;top:10px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:#fff;z-index:2}
+.gc-groups-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+@media(max-width:540px){.gc-groups-row{grid-template-columns:1fr}}
+.gc-group{display:flex;flex-direction:column;position:relative}
+.gc-list{display:flex;flex-direction:column;gap:8px}
+.gc-group-label{font-size:clamp(12px,2.2vw,15px);font-weight:900;color:#2D5016;background:#f0f7ec;border:1.5px solid #d4e4cc;border-radius:10px;padding:8px 12px;text-align:center;margin-bottom:8px}
+.gc-group-locked .gc-group-label{color:#94a3b8;background:#f1f5f9;border-color:#e2e8f0}
+.gc-lock-msg{display:none;align-items:center;justify-content:center;gap:6px;font-size:clamp(10.5px,1.9vw,13px);font-weight:700;color:#94a3b8;background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:10px;padding:8px 10px;margin-bottom:8px;text-align:center}
+.gc-lock-msg.gc-cooldown{color:#d97706;background:#fff7ed;border-color:#fed7aa}
+.gift-card{border-radius:clamp(12px,2.2vw,18px);padding:clamp(8px,1.8vw,14px);display:flex;align-items:center;gap:clamp(6px,1.4vw,12px);cursor:pointer;border:2.5px solid transparent;transition:all .2s;box-shadow:0 3px 12px rgba(0,0,0,.15)}
+.gift-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.gift-card.cant-afford{opacity:.45;cursor:not-allowed}
+.gift-card.gc-locked{cursor:not-allowed;filter:grayscale(.6)}
+.gift-card.gc-locked .gc-btn{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3)}
+.gc-bronze{background:linear-gradient(135deg,#92400e,#b45309);color:#fff}
+.gc-silver{background:linear-gradient(135deg,#4b5563,#6b7280);color:#fff}
+.gc-gold{background:linear-gradient(135deg,#92400e,#d97706);color:#fff}
+.gc-diamond{background:linear-gradient(135deg,#1e40af,#3b82f6);color:#fff}
+.gc-game{background:linear-gradient(135deg,#6d28d9,#a78bfa);color:#fff}
+.gc-reading{background:linear-gradient(135deg,#1d4ed8,#60a5fa);color:#fff}
+.gc-board{background:linear-gradient(135deg,#c2410c,#fb923c);color:#fff}
+.gc-chill{background:linear-gradient(135deg,#0f766e,#5eead4);color:#fff}
+.gc-youtube{background:linear-gradient(135deg,#b91c1c,#f87171);color:#fff}
+.gc-icon{font-size:clamp(20px,4vw,30px);flex-shrink:0}
 .gc-info{flex:1}
-.gc-name{font-size:clamp(12px,2.1vw,14.5px);font-weight:900;color:var(--text)}
-.gc-desc{font-size:10px;color:var(--text-light);font-weight:600;margin:2px 0}
-.gc-price{font-size:11px;font-weight:800;color:var(--primary-dark)}
-.gc-btn{font-size:11px;font-weight:900;color:#fff;background:var(--gradient);padding:6px 10px;border-radius:8px;white-space:nowrap}
-.my-cards-title{font-size:clamp(13px,2.3vw,16px);font-weight:900;color:var(--text);margin-bottom:8px}
-.my-cards{display:flex;flex-direction:column;gap:8px}
-.no-cards{font-size:12px;color:var(--text-light);font-weight:700;text-align:center;padding:14px}
-.redeemed-card{border-radius:12px;padding:10px 14px;border:2px solid var(--border);background:var(--primary-light)}
-.rc-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.rc-icon{font-size:18px}
-.rc-name{font-weight:900;font-size:12px;color:var(--text);flex:1}
+.gc-name{font-size:clamp(11px,2.2vw,13px);font-weight:900;margin-bottom:2px}
+.gc-desc{font-size:clamp(9px,1.8vw,10px);opacity:.8;font-weight:600;margin-bottom:4px}
+.gc-price{font-size:clamp(12px,2.4vw,14px);font-weight:900;color:#FFD700}
+.gc-btn{background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.5);border-radius:10px;padding:clamp(5px,1.2vw,7px) clamp(8px,1.8vw,14px);font-size:clamp(10px,2vw,12px);font-weight:900;cursor:pointer;color:#fff;white-space:nowrap;font-family:'Nunito',sans-serif;transition:.15s;flex-shrink:0}
+.my-cards-title{font-size:clamp(10px,1.8vw,14px);font-weight:900;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.my-cards{display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto}
+.no-cards{font-size:12px;color:#888;font-weight:700;text-align:center;padding:14px}
+.redeemed-card{border-radius:12px;padding:12px 14px;border:2px solid;position:relative;overflow:hidden;flex-shrink:0}
+.rc-bronze{background:#fef3c7;border-color:#d97706}
+.rc-silver{background:#f3f4f6;border-color:#6b7280}
+.rc-gold{background:#fffbeb;border-color:#f59e0b}
+.rc-diamond{background:#eff6ff;border-color:#3b82f6}
+.rc-game{background:#f3e8ff;border-color:#a78bfa}
+.rc-reading{background:#dbeafe;border-color:#60a5fa}
+.rc-board{background:#ffedd5;border-color:#fb923c}
+.rc-chill{background:#ccfbf1;border-color:#5eead4}
+.rc-youtube{background:#fee2e2;border-color:#f87171}
+.rc-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.rc-icon{font-size:clamp(16px,3vw,20px)}
+.rc-name{font-size:clamp(11px,2vw,16px);font-weight:900;flex:1}
 .rc-status{font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px}
-.rc-status.used{background:#e2e8f0;color:#64748b}
-.rc-status.new{background:#dcfce7;color:#166534}
-.rc-code{font-family:monospace;font-weight:900;font-size:13px;color:var(--primary-dark);letter-spacing:1px}
-.rc-meta{font-size:10px;color:var(--text-light);margin-top:2px}
-.shop-open-btn{background:var(--gradient);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:0.85rem;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer}
+.rc-status.used{background:#E24B4A;color:#fff}.rc-status.new{background:#1D9E75;color:#fff}
+.rc-code{font-size:clamp(10px,1.9vw,15px);font-weight:900;color:#374151;background:rgba(0,0,0,.06);border-radius:6px;padding:4px 8px;font-family:monospace;letter-spacing:.5px;margin-bottom:4px}
+.rc-meta{font-size:9px;color:#888;font-weight:600}
+.shop-open-btn{background:linear-gradient(135deg,#6B21A8,#9333EA);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:0.85rem;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer}
+/* Shop rules popup */
+.sr-group-title{font-size:clamp(13px,2.3vw,16px);font-weight:900;color:#fff;padding:7px 12px;border-radius:9px;margin:10px 0 8px}
+.sr-group-title.sr-group-a{background:linear-gradient(135deg,#0f766e,#5eead4)}
+.sr-group-title.sr-group-b{background:linear-gradient(135deg,#92400e,#fbbf24)}
+.sr-rule-box{display:flex;flex-direction:column;gap:10px;margin:0 0 14px}
+.sr-rule-item{display:flex;align-items:flex-start;gap:12px;background:#f0f7ec;border:1.5px solid #d4e4cc;border-radius:12px;padding:10px 14px}
+.sr-rule-item .sr-icon{font-size:clamp(22px,4vw,30px);flex-shrink:0;margin-top:1px}
+.sr-rule-item b{color:#1B3A0A;font-size:clamp(13px,2.3vw,16px);font-weight:900}
+.sr-rule-item .sr-sub{display:block;color:#6b8a5a;font-size:clamp(10px,1.8vw,13px);font-weight:600;margin-top:1px}
+.sr-note{background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:10px 12px;font-size:clamp(10.5px,1.9vw,13.5px);font-weight:700;color:#d97706;text-align:center;margin-bottom:12px;line-height:1.6}
+.sr-benefits-title{font-size:clamp(13px,2.3vw,16px);font-weight:900;color:#1B3A0A;text-align:center;margin:14px 0 10px;padding-bottom:6px;border-bottom:2px dashed #d4e4cc}
+.sr-benefits-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+@media(max-width:420px){.sr-benefits-grid{grid-template-columns:1fr}}
+.sr-benefit{display:flex;align-items:flex-start;gap:8px;background:#fffbeb;border:1.5px solid #fde68a;border-radius:10px;padding:8px 10px;font-size:clamp(10.5px,1.9vw,12.5px);font-weight:700;color:#1B3A0A;line-height:1.4}
+.sr-benefit span{font-size:clamp(16px,3vw,20px);flex-shrink:0}
+.sr-benefit i{display:block;font-style:normal;color:#92400e;font-size:clamp(9px,1.6vw,11px);font-weight:600;margin-top:2px}
+.shop-rules-box{background:#fff;border-radius:20px;padding:24px 20px;width:100%;max-width:clamp(320px,90vw,500px);max-height:88vh;overflow-y:auto}
 .verify-ov{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:10002;padding:20px}
 .verify-box{background:#fff;border-radius:20px;padding:24px 20px;width:100%;max-width:420px;box-shadow:var(--shadow-lg)}
 .verify-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-weight:700;font-family:monospace;margin:10px 0;text-transform:uppercase}
@@ -1327,7 +1371,7 @@ function buildAdmin() {
         </div>
         <div style="overflow-x:auto;margin-top:14px;">
           <table class="progress-table">
-            <thead><tr><th>学生</th><th>完成TK</th><th>总分</th><th>状态</th><th>重置</th><th>删除</th></tr></thead>
+            <thead><tr><th>学生</th><th>完成TK</th><th>总分</th><th>状态</th><th>会员</th><th>重置</th><th>删除</th></tr></thead>
             <tbody>${buildStudentRows()}</tbody>
           </table>
         </div>
@@ -1450,10 +1494,18 @@ function buildStudentRows() {
         <td>${completed} / 36</td>
         <td>${sd.totalScore || 0} 分</td>
         <td>${completed===36?'<span style="color:var(--green);font-weight:700;">✅ 全部完成</span>':completed>0?`<span style="color:var(--gold);">📖 进行中 (TK${unlocked})</span>`:'<span style="color:var(--gray);">⏳ 未开始</span>'}</td>
+        <td><button class="btn btn-sm ${sd.shopUnlocked?'btn-gold':'btn-gray'}" onclick="toggleMemberByName('${escHtml(name)}')">${sd.shopUnlocked?'👑 会员':'开通会员'}</button></td>
         <td><button class="btn btn-sm btn-gray" onclick="resetStudentByIndex(${idx})">重置</button></td>
         <td><button class="btn btn-sm btn-red"  onclick="deleteStudentByIndex(${idx})">🗑️ 删除</button></td>
       </tr>`;
   }).join('');
+}
+function toggleMemberByName(name){
+  const sd=getStudentData(name);
+  if(!sd) return;
+  sd.shopUnlocked=!sd.shopUnlocked;
+  saveStudentData(name,sd);
+  renderApp();
 }
 
 function isUnlockedForStudent(sd) {
@@ -2225,15 +2277,53 @@ renderApp();
 
 <!-- SHOP OVERLAY -->
 <div class="shop-ov" id="shop-ov" style="display:none">
-  <div class="shop-box">
-    <div class="shop-box-hdr">
-      <div class="shop-box-title">🛒 购物天堂 · Syurga Hadiah</div>
-      <button class="shop-box-close" onclick="closeShop()">✕</button>
+  <div class="shop-box" style="position:relative">
+    <button class="shop-box-close" onclick="closeShop()">✕</button>
+    <div class="shop-wrap">
+      <div class="shop-hdr">
+        <div class="sh-title">🛒 购物天堂 · Syurga Hadiah</div>
+        <div class="sh-bal">余额: <span id="shop-balance">0</span> 分</div>
+        <button class="sh-rules-link" onclick="document.getElementById('shop-rules-ov').style.display='flex'">📋 规则</button>
+      </div>
+      <div class="gc-groups-row">
+        <div class="gc-group" id="gc-group-a">
+          <div class="gc-group-label">🎁 非会员奖励 · Hadiah Bukan Ahli</div>
+          <div class="gc-lock-msg" id="gc-lockmsg-a"></div>
+          <div class="gc-list" id="gc-list-a"></div>
+        </div>
+        <div class="gc-group" id="gc-group-b">
+          <div class="gc-group-label">👑 会员奖励 · Hadiah Ahli</div>
+          <div class="gc-lock-msg" id="gc-lockmsg-b"></div>
+          <div class="gc-list" id="gc-list-b"></div>
+        </div>
+      </div>
+      <div class="my-cards-title">我的礼物卡 · Kad Hadiah Saya</div>
+      <div class="my-cards" id="my-cards"></div>
     </div>
-    <div class="shop-balance" id="shop-balance"></div>
-    <div class="gc-list" id="gc-list"></div>
-    <div class="my-cards-title">我的礼物卡 · Kad Hadiah Saya</div>
-    <div class="my-cards" id="my-cards"></div>
+  </div>
+</div>
+
+<!-- SHOP RULES POPUP -->
+<div class="shop-ov" id="shop-rules-ov" style="display:none;z-index:10003">
+  <div class="shop-rules-box">
+    <div style="text-align:center;margin-bottom:10px">
+      <div style="font-size:clamp(36px,7vw,52px)">💰🛒</div>
+      <div style="font-size:clamp(18px,3.4vw,26px);font-weight:900;color:var(--text)">购物车规则</div>
+      <div style="font-size:clamp(11px,2vw,14px);color:var(--text-light);font-weight:700">Peraturan Kedai</div>
+    </div>
+    <div class="sr-group-title sr-group-a">🎁 非会员奖励 · Hadiah Bukan Ahli</div>
+    <div class="sr-rule-box">
+      <div class="sr-rule-item"><span class="sr-icon">📊</span><div><b>兑换条件：</b>总分达到 200 分即可兑换<br><span class="sr-sub">Skor terkumpul mencapai 200 mata</span></div></div>
+      <div class="sr-rule-item"><span class="sr-icon">⏳</span><div><b>兑换次数：</b>每星期限兑换 1 次<br><span class="sr-sub">Hanya 1 kali setiap minggu</span></div></div>
+    </div>
+    <div class="sr-group-title sr-group-b">👑 会员奖励 · Hadiah Ahli</div>
+    <div class="sr-rule-box">
+      <div class="sr-rule-item"><span class="sr-icon">👩‍🏫</span><div><b>会员资格：</b>由老师开通<br><span class="sr-sub">Diaktifkan oleh Cikgu</span></div></div>
+      <div class="sr-rule-item"><span class="sr-icon">🏆</span><div><b>兑换条件：</b>总分达标即可兑换（铜300/银700/金1500/钻3000）<br><span class="sr-sub">Skor terkumpul mencukupi</span></div></div>
+      <div class="sr-rule-item"><span class="sr-icon">⏳</span><div><b>兑换次数：</b>每星期限兑换 1 次<br><span class="sr-sub">Hanya 1 kali setiap minggu</span></div></div>
+    </div>
+    <div class="sr-note">💡 请给老师看兑换码以核实领取奖品 · Tunjukkan kod kepada Cikgu untuk pengesahan</div>
+    <button class="login-btn reg-submit-btn" onclick="document.getElementById('shop-rules-ov').style.display='none'">知道了 · Faham</button>
   </div>
 </div>
 
@@ -2281,19 +2371,26 @@ renderApp();
 </div>
 
 <script>
-// ── SHOP ──
-const SHOP_CARDS={
-  bronze:{name:'铜卡',icon:'🥉',need:300,desc:'小礼物 · Hadiah Kecil',cls:''},
-  silver:{name:'银卡',icon:'🥈',need:700,desc:'文具套装 · Alat Tulis',cls:''},
-  gold:{name:'金卡',icon:'🥇',need:1500,desc:'故事书 · Buku Cerita',cls:''},
-  diamond:{name:'钻石卡',icon:'💎',need:3000,desc:'大礼包 · Pakej Istimewa',cls:''}
+// ── SHOP (A=非会员/总分门槛/每周1次, B=会员/老师开通/总分门槛/每周1次) ──
+const SHOP_COOLDOWN=7*24*60*60*1000;
+const CARDS_A={
+  game:{name:'游戏时光',icon:'🎮',need:200,cls:'gc-game',desc:'45分钟 · 45 minit'},
+  reading:{name:'阅读时光',icon:'📖',need:200,cls:'gc-reading',desc:'45分钟 · 45 minit'},
+  board:{name:'桌游时光',icon:'🎲',need:200,cls:'gc-board',desc:'45分钟 · 45 minit'},
+  chill:{name:'躺平时光',icon:'🛋️',need:200,cls:'gc-chill',desc:'45分钟 · 45 minit'},
+  youtube:{name:'YouTube Kids时光',icon:'📺',need:200,cls:'gc-youtube',desc:'45分钟 · 45 minit'}
 };
-function genShopCode(tier){
+const CARDS_B={
+  bronze:{name:'铜卡',icon:'🥉',need:300,cls:'gc-bronze',desc:'小礼物 · Hadiah Kecil'},
+  silver:{name:'银卡',icon:'🥈',need:700,cls:'gc-silver',desc:'文具套装 · Alat Tulis'},
+  gold:{name:'金卡',icon:'🥇',need:1500,cls:'gc-gold',desc:'故事书 · Buku Cerita'},
+  diamond:{name:'钻石卡',icon:'💎',need:3000,cls:'gc-diamond',desc:'大礼包 · Pakej Istimewa'}
+};
+function genShopCode(tier,groupId){
   const d=new Date();
   const ds=(d.getFullYear()+'').slice(2)+(d.getMonth()+1+'').padStart(2,'0')+(''+d.getDate()).padStart(2,'0');
   const n=Math.floor(1000+Math.random()*9000);
-  const prefix={bronze:'BRZ',silver:'SIL',gold:'GLD',diamond:'DIA'}[tier];
-  return 'P5-'+prefix+'-'+ds+'-'+n;
+  return 'P5-'+tier.toUpperCase().slice(0,4)+'-'+ds+'-'+n;
 }
 function openShop(){
   document.getElementById('shop-ov').style.display='flex';
@@ -2305,39 +2402,72 @@ function closeShop(){
 function renderShopUI(){
   const sd=getStudentData(currentStudent)||newStudentObj();
   const score=sd.totalScore||0;
-  document.getElementById('shop-balance').textContent='我的总分：'+score+' 分';
+  document.getElementById('shop-balance').textContent=score;
+  renderGroup('a',CARDS_A,sd,score,true);
+  renderGroup('b',CARDS_B,sd,score,!!sd.shopUnlocked);
   const cards=sd.cards||[];
-  const gcList=document.getElementById('gc-list');
-  gcList.innerHTML='';
-  Object.keys(SHOP_CARDS).forEach(tier=>{
-    const c=SHOP_CARDS[tier];
-    const already=cards.find(x=>x.tier===tier);
-    const can=score>=c.need;
-    const div=document.createElement('div');
-    div.className='gift-card'+(already?' redeemed':(can?'':' cant-afford'));
-    div.innerHTML=`<div class="gc-icon">${c.icon}</div><div class="gc-info"><div class="gc-name">${c.name}</div><div class="gc-desc">${c.desc}</div><div class="gc-price">需要总分 ${c.need} 分</div></div><div class="gc-btn">${already?'已兑换':'兑换'}</div>`;
-    if(!already) div.onclick=()=>redeemGiftCard(tier);
-    gcList.appendChild(div);
-  });
   const mc=document.getElementById('my-cards');
   if(!cards.length){mc.innerHTML='<div class="no-cards">还没有礼物卡 · Belum ada kad hadiah</div>';return;}
   mc.innerHTML='';
   [...cards].reverse().forEach(r=>{
     const d=document.createElement('div');
-    d.className='redeemed-card';
+    d.className='redeemed-card '+(r.cls||'');
     d.innerHTML=`<div class="rc-top"><span class="rc-icon">${r.icon}</span><span class="rc-name">${r.name}</span><span class="rc-status ${r.used?'used':'new'}">${r.used?'已核实':'未核实'}</span></div><div class="rc-code">${r.code}</div><div class="rc-meta">兑换日期：${r.date}</div>`;
     mc.appendChild(d);
   });
 }
-function redeemGiftCard(tier){
+function renderGroup(groupId,CARDS,sd,score,unlocked){
+  const lockEl=document.getElementById('gc-lockmsg-'+groupId);
+  const listEl=document.getElementById('gc-list-'+groupId);
+  const groupEl=document.getElementById('gc-group-'+groupId);
+  const lastTs=groupId==='a'?(sd.lastRedeemA||0):(sd.lastRedeemB||0);
+  const now=Date.now();
+  const onCooldown=now-lastTs<SHOP_COOLDOWN;
+  groupEl.classList.toggle('gc-group-locked',!unlocked);
+  if(!unlocked){
+    lockEl.style.display='flex';
+    lockEl.classList.remove('gc-cooldown');
+    lockEl.innerHTML='🔒 此组未开通<br>Kumpulan ini belum diaktifkan<br><span style="font-size:10px">请联系老师开通会员资格</span>';
+    listEl.innerHTML='';
+    return;
+  }
+  if(onCooldown){
+    const days=Math.ceil((SHOP_COOLDOWN-(now-lastTs))/(24*60*60*1000));
+    lockEl.style.display='flex';
+    lockEl.classList.add('gc-cooldown');
+    lockEl.innerHTML='⏳ 本星期已兑换，还需 '+days+' 天才能再兑换<br>Tunggu '+days+' hari lagi untuk tukar';
+  } else {
+    lockEl.style.display='none';
+    lockEl.classList.remove('gc-cooldown');
+  }
+  listEl.innerHTML='';
+  Object.keys(CARDS).forEach(tier=>{
+    const c=CARDS[tier];
+    const cantAfford=score<c.need;
+    const locked=onCooldown||cantAfford;
+    const div=document.createElement('div');
+    div.className='gift-card '+c.cls+(cantAfford?' cant-afford':'')+(onCooldown?' gc-locked':'');
+    div.innerHTML=`<div class="gc-icon">${c.icon}</div><div class="gc-info"><div class="gc-name">${c.name}</div><div class="gc-desc">${c.desc}</div><div class="gc-price">需总分 ${c.need}</div></div><div class="gc-btn">${onCooldown?'🔒':'兑换'}</div>`;
+    div.onclick = locked ? null : ()=>redeemGiftCard(tier,groupId,CARDS);
+    listEl.appendChild(div);
+  });
+}
+function redeemGiftCard(tier,groupId,CARDS){
   const sd=getStudentData(currentStudent)||newStudentObj();
   const score=sd.totalScore||0;
-  const c=SHOP_CARDS[tier];
+  const c=CARDS[tier];
   if(score<c.need){toast2('总分不够！需要 '+c.need+' 分');return;}
+  const now=Date.now();
+  const lastTs=groupId==='a'?(sd.lastRedeemA||0):(sd.lastRedeemB||0);
+  if(now-lastTs<SHOP_COOLDOWN){
+    const days=Math.ceil((SHOP_COOLDOWN-(now-lastTs))/(24*60*60*1000));
+    toast2('⏳ 本星期已兑换过！还需'+days+'天');
+    return;
+  }
+  if(groupId==='a') sd.lastRedeemA=now; else sd.lastRedeemB=now;
   if(!sd.cards) sd.cards=[];
-  if(sd.cards.find(x=>x.tier===tier)){toast2('此礼物卡已经兑换过了！');return;}
-  const code=genShopCode(tier);
-  sd.cards.push({code,tier,icon:c.icon,name:c.name,date:new Date().toLocaleDateString('zh-MY'),used:false});
+  const code=genShopCode(tier,groupId);
+  sd.cards.push({code,tier,icon:c.icon,name:c.name,cls:c.cls.replace('gc-','rc-'),date:new Date().toLocaleDateString('zh-MY'),used:false});
   saveStudentData(currentStudent,sd);
   renderShopUI();
   toast2(c.icon+' '+c.name+' 兑换成功！请给老师看兑换码');
