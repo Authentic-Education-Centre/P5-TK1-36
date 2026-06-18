@@ -328,6 +328,11 @@ body {
 .gc-group-locked .gc-group-label{color:#94a3b8;background:#f1f5f9;border-color:#e2e8f0}
 .gc-lock-msg{display:none;align-items:center;justify-content:center;gap:6px;font-size:clamp(10.5px,1.9vw,13px);font-weight:700;color:#94a3b8;background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:10px;padding:8px 10px;margin-bottom:8px;text-align:center}
 .gc-lock-msg.gc-cooldown{color:#d97706;background:#fff7ed;border-color:#fed7aa}
+.gc-lock-msg.gc-rich{display:block;text-align:left;background:#fffbeb;border:2px solid #fde68a;padding:14px;position:absolute;inset:0;z-index:5;overflow-y:auto;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.gc-pitch-close{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.06);border:none;border-radius:50%;width:24px;height:24px;font-size:13px;font-weight:900;color:#92400e;cursor:pointer;line-height:1}
+.gc-pitch-close:hover{background:rgba(0,0,0,.12)}
+.gc-pitch-collapsed{display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;font-size:clamp(11px,2vw,13.5px);font-weight:800;color:#92400e;padding:10px}
+.gc-pitch-collapsed:hover{text-decoration:underline}
 .gift-card{border-radius:clamp(12px,2.2vw,18px);padding:clamp(8px,1.8vw,14px);display:flex;align-items:center;gap:clamp(6px,1.4vw,12px);cursor:pointer;border:2.5px solid transparent;transition:all .2s;box-shadow:0 3px 12px rgba(0,0,0,.15)}
 .gift-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.2)}
 .gift-card.cant-afford{opacity:.45;cursor:not-allowed}
@@ -2416,6 +2421,14 @@ function renderShopUI(){
     mc.appendChild(d);
   });
 }
+let memberPitchExpanded=true;
+function toggleMemberPitch(expand){
+  memberPitchExpanded=expand;
+  const lockEl=document.getElementById('gc-lockmsg-b');
+  if(!lockEl) return;
+  if(expand){ lockEl.classList.add('gc-rich'); lockEl.innerHTML=window._gcRichPitchHTML; }
+  else { lockEl.classList.remove('gc-rich'); lockEl.innerHTML=window._gcCollapsedPitchHTML; }
+}
 function renderGroup(groupId,CARDS,sd,score,unlocked){
   const lockEl=document.getElementById('gc-lockmsg-'+groupId);
   const listEl=document.getElementById('gc-list-'+groupId);
@@ -2424,13 +2437,51 @@ function renderGroup(groupId,CARDS,sd,score,unlocked){
   const now=Date.now();
   const onCooldown=now-lastTs<SHOP_COOLDOWN;
   groupEl.classList.toggle('gc-group-locked',!unlocked);
+  if(!unlocked && groupId==='b'){
+    lockEl.style.display='block';
+    window._gcRichPitchHTML=`
+      <button class="gc-pitch-close" onclick="toggleMemberPitch(false)">✕</button>
+      <div class="sr-group-title sr-group-b" style="margin-top:0">🔒 需开通会员才能兑换 · Perlu Jadi Ahli</div>
+      <div class="sr-benefits-title" style="margin-top:0">✨ 成为会员的8大好处</div>
+      <div class="sr-benefits-grid">
+        <div class="sr-benefit"><span>🏆</span><div>培养良性竞争，激发学习动力<i>Persaingan sihat, dorong semangat belajar</i></div></div>
+        <div class="sr-benefit"><span>🎯</span><div>完成超额课业的自我奖赏动力<i>Dorongan ganjaran diri untuk kerja tambahan</i></div></div>
+        <div class="sr-benefit"><span>📅</span><div>培养孩子每天坚持完成的自律<i>Membina disiplin menyiapkan tugasan setiap hari</i></div></div>
+        <div class="sr-benefit"><span>💬</span><div>与朋友产生共同话题，训练沟通(尤其课业上的共鸣)<i>Topik bersama dengan rakan, latih komunikasi</i></div></div>
+        <div class="sr-benefit"><span>🔥</span><div>提升学习专注力与持续力<i>Tingkatkan fokus dan ketekunan belajar</i></div></div>
+        <div class="sr-benefit"><span>💰</span><div>培养理财观念，学习储蓄与延迟满足<i>Membina tabiat menabung dan kepuasan tertunda</i></div></div>
+        <div class="sr-benefit"><span>👨‍👩‍👧</span><div>增进亲子互动，家长可与孩子讨论排名进步<i>Tingkatkan interaksi ibu bapa dan anak</i></div></div>
+        <div class="sr-benefit"><span>🌟</span><div>建立自信与成就感，努力获得肯定<i>Bina keyakinan dan rasa pencapaian</i></div></div>
+      </div>
+      <div class="sr-rule-box">
+        <div class="sr-rule-item"><span class="sr-icon">💵</span><div><b>会员费：</b>仅需每天 RM1 起<br><span class="sr-sub">Hanya bermula RM1 sehari (≈RM30/bulan)</span></div></div>
+        <div class="sr-rule-item"><span class="sr-icon">🏦</span><div><b>缴费方式：</b>转账或现金均可<br><span class="sr-sub">Pindahan bank atau tunai</span></div></div>
+        <div class="sr-rule-item"><span class="sr-icon">📞</span><div><b>银行账户：</b>请联系老师索取<br><span class="sr-sub">Hubungi Cikgu untuk akaun bank</span></div></div>
+        <div class="sr-rule-item"><span class="sr-icon">🏆</span><div><b>兑换条件：</b>总分达标即可兑换（铜300/银700/金1500/钻3000）<br><span class="sr-sub">Skor terkumpul mencukupi</span></div></div>
+      </div>
+      <div class="sr-note" style="margin-top:10px">💡 缴费后请通知老师开通 · Hubungi Cikgu untuk aktifkan</div>
+    `;
+    window._gcCollapsedPitchHTML=`<div class="gc-pitch-collapsed" onclick="toggleMemberPitch(true)">🔒 需开通会员才能兑换 · 点击查看8大好处 ▼</div>`;
+    if(memberPitchExpanded){ lockEl.classList.add('gc-rich'); lockEl.innerHTML=window._gcRichPitchHTML; }
+    else { lockEl.classList.remove('gc-rich'); lockEl.innerHTML=window._gcCollapsedPitchHTML; }
+    listEl.innerHTML='';
+    Object.keys(CARDS).forEach(tier=>{
+      const c=CARDS[tier];
+      const div=document.createElement('div');
+      div.className='gift-card '+c.cls+' cant-afford gc-locked';
+      div.innerHTML=`<div class="gc-icon">${c.icon}</div><div class="gc-info"><div class="gc-name">${c.name}</div><div class="gc-desc">${c.desc}</div><div class="gc-price">需总分 ${c.need}</div></div><div class="gc-btn">🔒</div>`;
+      listEl.appendChild(div);
+    });
+    return;
+  }
   if(!unlocked){
     lockEl.style.display='flex';
-    lockEl.classList.remove('gc-cooldown');
-    lockEl.innerHTML='🔒 此组未开通<br>Kumpulan ini belum diaktifkan<br><span style="font-size:10px">请联系老师开通会员资格</span>';
+    lockEl.classList.remove('gc-cooldown','gc-rich');
+    lockEl.innerHTML='🔒 此组未开通<br>Kumpulan ini belum diaktifkan';
     listEl.innerHTML='';
     return;
   }
+  lockEl.classList.remove('gc-rich');
   if(onCooldown){
     const days=Math.ceil((SHOP_COOLDOWN-(now-lastTs))/(24*60*60*1000));
     lockEl.style.display='flex';
